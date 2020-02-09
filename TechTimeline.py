@@ -91,6 +91,8 @@ def quitting_time():
     
 def show_years(decade_ind):
     '''go through each display string and add year after each innovation'''
+    ###### CURRENTLY UNUSED, BUT MAY RE-INSTATE AT SOME POINT ####
+
     start = 0
     end = 0
     while end != -1:
@@ -321,7 +323,7 @@ for key, value in PROBLEMS.items():
     three_dig = pt // 10 - 194
     #print("3 dig: ",three_dig)
     decade_counts[three_dig] += 1  # first 3 digits of year - 194(0)
-    print(str(pt) + " : " + str(decade_counts[three_dig]))
+    #print(str(pt) + " : " + str(decade_counts[three_dig]))
 # place all labels and menus in root window:
 for i in range(num_decades):
     decade_str = str(start_decade + i * 10) + "'s"
