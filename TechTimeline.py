@@ -16,49 +16,49 @@ root = tkinter.Tk()
 root.title("TECH TIMELINE GAME")  
 
 # encrypted:
-PROBLEMS = {
-    " 1. monitor"      :-994901968,
-    " 2. touch screen" :-994828258,
-    " 3. desktop"      :-994894597,
-    " 4. programmable" :-995115727,
-    " 5. Mac"          :-994879855,
-    " 6. mouse"        :-994924081,
-    " 7. smart phone"  :-994651354,
-    " 8. email"        :-994916710,
-    " 9. laptop"       :-994843000,
-    "10. comp w/sound" :-994813516,
-    "11. handheld games":-994857742,
-    "12. LCD monitors"  :-994739806,
-    "13. keyboard"      :-994887226,
-    "14. dumb cellphone":-994901968,
-    "15. transistor"    :-995042017,
-    "16. CPUs"          :-994916710,
-    "17. RAM"           :-994938823,
-    "18. Google"        :-994717693,
-    "19. Amazon"        :-994747177,
-    "20. Facebook"      :-994673467,
-    "21. browser"       : -994776661,
-    "22. text adv."     :-994879855,
-    "23. first vid game":-994983049,
-    "24. GUI"           :-994901968,
-    "25. music player"   :-994725064,
-    "26. word proc."     :-994857742,
-    "27. USB"            :-994732435,
-    "28. network"        :-994931452,
-    "29. calculator"     :-994946194,
-    "30. sci. calculator":-994909339,
-    "31. graphing calc.":-994813516,
-    "32. Tetris"        :-994820887,
-    "33. Angry Birds"   :-994636612,
-    "34. World of Warcraft":-994673467,
-    "35. Minecraft"    :-994636612,
-    "36. Pong"         :-994909339,
-    "37. Fortnite"     :-994577644,
-    "38. Play Station" :-994747177,
-    "39. PacMan"       :-994850371,
-    "40. Legend of Zelda":-994806145,
-    "41. Mario Bros."   :-994828258,
-    "42. Asteroids"     : -994857742
+PROBLEMS = { 
+    "Amazon"        :-994747177,
+    "Angry Birds"   :-994636612,
+    "Asteroids"     : -994857742,
+    "browser"       : -994776661,
+    "calculator"    :-994946194,
+    "comp w/sound"  :-994813516,
+    "CPUs"          :-994916710,
+    "desktop"       :-994894597,
+    "dumb cellphone":-994901968,
+    "email"         :-994916710,
+    "Facebook"      :-994673467,
+    "video game":-994983049,
+    "Fortnite"      :-994577644,
+    "Google"        :-994717693,
+    "graphing calc.":-994813516,
+    "GUI"           :-994901968,
+    "handheld games":-994857742,
+    "keyboard"      :-994887226,
+    "laptop"        :-994843000,
+    "LCD monitors"  :-994739806,
+    "Legend of Zelda":-994806145,
+    "Mac"           :-994879855,
+    "Mario Bros."   :-994828258,
+    "Minecraft"     :-994636612,
+    "monitor"       :-994901968,
+    "mouse"         :-994924081,
+    "network"       :-994931452,
+    "PacMan"        :-994850371,
+    "Play Station"  :-994747177,
+    "Pong"          :-994909339,
+    "programmable"  :-995115727,
+    "RAM"           :-994938823,
+    "sci. calculator":-994909339,
+    "smart phone"   :-994651354,
+    "text adv."     :-994879855,
+    "touch screen"  :-994828258,
+    "transistor"    :-995042017,
+    "Tetris"        :-994820887,
+    "USB"           :-994732435,
+    "music player"  :-994725064,
+    "word proc."    :-994857742,
+    "World of Warcraft":-994673467
     }
 #DEBUG:
 #PROBLEMS = {"39. PacMan"       :-994850371,     "37. Fortnite"     :-994577644}
@@ -128,7 +128,7 @@ def submit():
                 end = results_list[decade_index].find("\n", start)  # results list is the string for the display
                 
             
-                display = results_list[decade_index][start:end] + " YES! " + str(val) + "\n"
+                display = results_list[decade_index][start:end] + " YES! " + str(val)
                 display = results_list[decade_index][0: start] + display + results_list[decade_index][end:]
                 results_list[decade_index] = display
                 results_displays[decade_index].configure(state="normal") # allow editing of text
