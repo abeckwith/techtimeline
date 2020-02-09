@@ -23,5 +23,5 @@ Current gameplay:
 FUTURE DEVELOPMENTS:
 • show a subscore for each decade ("1 of 3 correct")
 
-• haven't implemented a win yet - timer should stop
+• haven't implemented a win yet - timer should stop (DONE: 2/9/20)
 
