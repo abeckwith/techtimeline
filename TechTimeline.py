@@ -91,8 +91,8 @@ def quitting_time():
     
 def show_years(decade_ind):
     '''go through each display string and add year after each innovation'''
+    
     ###### CURRENTLY UNUSED, BUT MAY RE-INSTATE AT SOME POINT ####
-
     start = 0
     end = 0
     while end != -1:
@@ -129,6 +129,8 @@ def submit():
                 
             
                 display = results_list[decade_index][start:end] + " YES! " + str(val) + "\n"
+                display = results_list[decade_index][0: start] + display + results_list[decade_index][end:]
+                results_list[decade_index] = display
                 results_displays[decade_index].configure(state="normal") # allow editing of text
                 results_displays[decade_index].delete(1.0, tkinter.END)
                 results_displays[decade_index].insert(tkinter.END, display) # show results in text area
@@ -149,16 +151,25 @@ def submit():
 def timer():
     '''show time elapsed'''
     global time, player_score, t
-    time += 1
+    
+    # up by 1 each sedond, but only subtract from score every 2 seconds
+    time += 1         
     if time % 2 == 0:
         player_score -= 1
+    
     total_score_var.set("Total Score: " + str(player_score))
-    mins = str(time // 60)
-    secs = str(time % 60)
-    if len(secs) == 1:
-        secs = "0" + secs
-    time_var.set("TIME: " + mins + ":" + secs)
-    t = root.after(1000, timer)
+    
+    
+    mins = time // 60
+    secs = time % 60
+    
+    # adjust for 1-digit seconds, then display current time:
+    if secs < 10:
+        secs = "0" + str(secs)
+        
+    time_var.set("TIME: " + str(mins) + ":" + str(secs))
+    
+    t = root.after(1000, timer)  # 1000ms = 1 second
 
 
 def check(i):
@@ -319,11 +330,8 @@ user_decade_counts = [0] * num_decades
 for key, value in PROBLEMS.items():
     pt = round(((value - 2623400) / 567 + 1784953) / 13)
     PROBLEMS[key] = pt
-    #print("key, pt", key, pt)
     three_dig = pt // 10 - 194
-    #print("3 dig: ",three_dig)
     decade_counts[three_dig] += 1  # first 3 digits of year - 194(0)
-    #print(str(pt) + " : " + str(decade_counts[three_dig]))
 # place all labels and menus in root window:
 for i in range(num_decades):
     decade_str = str(start_decade + i * 10) + "'s"
