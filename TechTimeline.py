@@ -60,7 +60,8 @@ PROBLEMS = {
     "41. Mario Bros."   :-994828258,
     "42. Asteroids"     : -994857742
     }
-
+#DEBUG:
+PROBLEMS = {"39. PacMan"       :-994850371,     "37. Fortnite"     :-994577644}
 # get list of inventions/keys:
 inventions = list(PROBLEMS.keys()) 
 # corresponding list of years:
@@ -81,6 +82,7 @@ time = 0
 #2D array of lists of choices in each decade
 choices = []  
 
+correct_decade = 0 # for scoring purposes
 
 
 def quitting_time():
@@ -90,8 +92,7 @@ def quitting_time():
     
 def submit():
     '''called when the submit button is clicked - check all answers and update things'''
-    global player_score
-    correct_decade = 0 # for scoring purposes
+    global player_score, t, correct_decade
     player_score -= 50
     total_score_var.set("Total Score: " + str(player_score))    
     # go through each decade
@@ -110,11 +111,13 @@ def submit():
     score_var.set("ROUNDS: " + str(old_score))
     
     decade_var.set("CORRECT DECADE: " + str(correct_decade)  + " of " + str(len(PROBLEMS)))
-    
+
+    if correct_decade == len(PROBLEMS):
+        root.after_cancel(t)
     
 def timer():
     '''show time elapsed'''
-    global time, player_score
+    global time, player_score, t
     time += 1
     if time % 2 == 0:
         player_score -= 1
@@ -124,7 +127,7 @@ def timer():
     if len(secs) == 1:
         secs = "0" + secs
     time_var.set("TIME: " + mins + ":" + secs)
-    root.after(1000, timer)
+    t = root.after(1000, timer)
 
 
 def check(i):
