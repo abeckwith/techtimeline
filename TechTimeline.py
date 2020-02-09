@@ -89,10 +89,24 @@ def quitting_time():
     '''called when Quit button is pressed'''
     root.destroy()
     
-    
+def show_years(decade_ind):
+    '''go through each display string and add year after each innovation'''
+    start = 0
+    end = 0
+    while end != -1:
+        end = results_list[decade_ind].find("\n", start)  # results list is the string for the display
+        if end != -1:
+            year = PROBLEMS[results_list[decade_ind][start:end]]
+        
+            display = results_list[decade_ind][start:end] + " " + str(year) + "!\n"
+            start = end + 1
+    results_displays[decade_ind].configure(state="normal") # allow editing of text
+    results_displays[decade_ind].delete(1.0, tkinter.END)
+    results_displays[decade_ind].insert(tkinter.END, display) # show results in text area
+    results_displays[decade_ind].configure(state="disabled") # prevent editing of text#
 def submit():
     '''called when the submit button is clicked - check all answers and update things'''
-    global player_score, t, correct_decade
+    global player_score, t, correct_decade, user_decade_counts, decade_counts
     player_score -= 50
     total_score_var.set("Total Score: " + str(player_score))    
     # go through each decade
@@ -105,6 +119,21 @@ def submit():
                 correct_decade += 1
                 player_score += 100
                 got_right[c] = True
+                decade_index = int(srch) - 194
+                user_decade_counts[decade_index] += 1
+                
+                start = results_list[decade_index].find(c)
+                end = results_list[decade_index].find("\n", start)  # results list is the string for the display
+                
+            
+                display = results_list[decade_index][start:end] + " YES! " + str(val) + "\n"
+                results_displays[decade_index].configure(state="normal") # allow editing of text
+                results_displays[decade_index].delete(1.0, tkinter.END)
+                results_displays[decade_index].insert(tkinter.END, display) # show results in text area
+                results_displays[decade_index].configure(state="disabled") # prevent editing of text#                
+                #if user_decade_counts[decade_index] == decade_counts[decade_index]:
+                   ## input("decade: " + str(1940 + decade_index * 10))
+                    #show_years(decade_index)
 
     # display score and correct count
     old_score = int(score_var.get()[8:]) + 1  # removes "ROUNDS: "
@@ -195,7 +224,7 @@ for i in range(num_decades):
     results_displays.append(results_display)
     results_list.append("")
     
-    choices.append([])
+    choices.append([]) # 2D list of what user has chosen for each decade
 
 #  BUTTONS
 submit_button = tkinter.Button(text = "CHECK ANS", command = submit, padx=10, pady=3)
@@ -282,10 +311,17 @@ option_menu = tkinter.OptionMenu(root, menu_vars[7],
                                  *OPTIONS, command = lambda x: check(7))
 option_menus.append(option_menu)
 
+decade_counts      = [0] * num_decades
+user_decade_counts = [0] * num_decades
+
 for key, value in PROBLEMS.items():
     pt = round(((value - 2623400) / 567 + 1784953) / 13)
     PROBLEMS[key] = pt
-    
+    #print("key, pt", key, pt)
+    three_dig = pt // 10 - 194
+    #print("3 dig: ",three_dig)
+    decade_counts[three_dig] += 1  # first 3 digits of year - 194(0)
+    print(str(pt) + " : " + str(decade_counts[three_dig]))
 # place all labels and menus in root window:
 for i in range(num_decades):
     decade_str = str(start_decade + i * 10) + "'s"
