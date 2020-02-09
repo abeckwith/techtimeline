@@ -61,7 +61,7 @@ PROBLEMS = {
     "42. Asteroids"     : -994857742
     }
 #DEBUG:
-#PROBLEMS = {"39. PacMan"       :-994850371,     "37. Fortnite"     :-994577644}
+PROBLEMS = {"39. PacMan"       :-994850371,     "37. Fortnite"     :-994577644}
 # get list of inventions/keys:
 inventions = list(PROBLEMS.keys()) 
 # corresponding list of years:
