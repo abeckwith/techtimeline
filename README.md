@@ -19,10 +19,7 @@ Current gameplay:
 
 • the check button awards 100 points for new correct answers, but always loses 50 points,
    so students should try to make several guesses before checking
+   
+• when a correct answer is checked, it will add the correct year the innovation was developed
 
-FUTURE DEVELOPMENTS:
-
-• show a subscore for each decade ("1 of 3 correct")
-
-• haven't implemented a win yet - timer should stop (DONE: 2/9/20)
 
