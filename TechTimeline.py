@@ -108,6 +108,7 @@ def show_years(decade_ind):
     results_displays[decade_ind].configure(state="disabled") # prevent editing of text#
 def setup_menus(c):
     global option_menus, OPTIONS, menu_vars, results_displays, results_list
+    global inventions
     # create the optionmenu (pulldown menu) with the options above:
     if c != None:
         for o in option_menus:
@@ -217,7 +218,7 @@ def setup_menus(c):
 def submit():
     '''called when the submit button is clicked - check all answers and update things'''
     global player_score, t, correct_decade, user_decade_counts, decade_counts
-    global option_menus, OPTIONS, menu_vars
+    global option_menus, OPTIONS, menu_vars, inventions
     player_score -= 50
     total_score_var.set("Total Score: " + str(player_score))   
     
@@ -253,6 +254,7 @@ def submit():
                    ## input("decade: " + str(1940 + decade_index * 10))
                     #show_years(decade_index)
                 setup_menus(c)
+                inventions.remove(c)
                 
                 break
             else:
