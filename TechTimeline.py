@@ -106,10 +106,118 @@ def show_years(decade_ind):
     results_displays[decade_ind].delete(1.0, tkinter.END)
     results_displays[decade_ind].insert(tkinter.END, display) # show results in text area
     results_displays[decade_ind].configure(state="disabled") # prevent editing of text#
+def setup_menus(c):
+    global option_menus, OPTIONS, menu_vars, results_displays, results_list
+    # create the optionmenu (pulldown menu) with the options above:
+    if c != None:
+        for o in option_menus:
+            o.grid_forget()
+    
+    option_menus = []
+    menu_vars    = []
+    
+    OPTIONS = ["SELECT:"] + inventions
+    if c != None:
+        OPTIONS2 = []
+
+        # THIS WORKS!
+        for o in OPTIONS:
+            if o != c:
+                OPTIONS2.append(o)
+        OPTIONS = OPTIONS2    
+    # NOTE - COULDN'T SOLVE the problem of check(i) sending menu item, not index
+    #  so had to forgo a loop here
+    print("NEW MENUS")
+    menu_var = tkinter.StringVar(root)
+    menu_var.set(OPTIONS[0]) # default value
+    menu_vars.append(menu_var)
+    
+    option_menu = tkinter.OptionMenu(root, menu_vars[0], 
+                                     *OPTIONS, command = lambda x: check(0))
+    option_menus.append(option_menu)
+    
+    #1
+    menu_var = tkinter.StringVar(root)
+    menu_var.set(OPTIONS[0]) # default value
+    menu_vars.append(menu_var)
+    
+    option_menu = tkinter.OptionMenu(root, menu_vars[1], 
+                                     *OPTIONS, command = lambda x: check(1))
+    option_menus.append(option_menu)
+    
+    #2
+    menu_var = tkinter.StringVar(root)
+    menu_var.set(OPTIONS[0]) # default value
+    menu_vars.append(menu_var)
+    
+    option_menu = tkinter.OptionMenu(root, menu_vars[2], 
+                                     *OPTIONS, command = lambda x: check(2))
+    option_menus.append(option_menu)
+    
+    #3
+    
+    menu_var = tkinter.StringVar(root)
+    menu_var.set(OPTIONS[0]) # default value
+    menu_vars.append(menu_var)
+    
+    option_menu = tkinter.OptionMenu(root, menu_vars[3], 
+                                     *OPTIONS, command = lambda x: check(3))
+    option_menus.append(option_menu)
+    #4
+    
+    menu_var = tkinter.StringVar(root)
+    menu_var.set(OPTIONS[0]) # default value
+    menu_vars.append(menu_var)
+    
+    option_menu = tkinter.OptionMenu(root, menu_vars[4], 
+                                     *OPTIONS, command = lambda x: check(4))
+    option_menus.append(option_menu)
+    #5
+    
+    menu_var = tkinter.StringVar(root)
+    menu_var.set(OPTIONS[0]) # default value
+    menu_vars.append(menu_var)
+    
+    option_menu = tkinter.OptionMenu(root, menu_vars[5], 
+                                     *OPTIONS, command = lambda x: check(5))
+    option_menus.append(option_menu)
+    #6
+    
+    menu_var = tkinter.StringVar(root)
+    menu_var.set(OPTIONS[0]) # default value
+    menu_vars.append(menu_var)
+    
+    option_menu = tkinter.OptionMenu(root, menu_vars[6], 
+                                     *OPTIONS, command = lambda x: check(6))
+    option_menus.append(option_menu)
+    #7
+    
+    menu_var = tkinter.StringVar(root)
+    menu_var.set(OPTIONS[0]) # default value
+    menu_vars.append(menu_var)
+    
+    option_menu = tkinter.OptionMenu(root, menu_vars[7], 
+                                     *OPTIONS, command = lambda x: check(7))
+    option_menus.append(option_menu)
+
+    # place all labels and menus in root window:
+    for i in range(num_decades):
+        decade_str = str(start_decade + i * 10) + "'s"
+        if i < 4:
+            tkinter.Label(root, text=decade_str, 
+                          font=("Helvetica", "18", "bold")).grid(row=1, column=i, columnspan=1)
+            option_menus[i].grid(    row=2, column=i, columnspan=1)
+            results_displays[i].grid(row=3, column=i, columnspan=1)
+        else:
+            tkinter.Label(root, text=decade_str, 
+                          font=("Helvetica", "18", "bold")).grid(row=4, column=i % 4, columnspan=1)        
+            option_menus[i].grid(    row=5, column=i % 4, columnspan=1)
+            results_displays[i].grid(row=6, column=i % 4, columnspan=1)
+
 def submit():
     '''called when the submit button is clicked - check all answers and update things'''
     global player_score, t, correct_decade, user_decade_counts, decade_counts
-    global OPTIONS
+    global option_menus, OPTIONS, menu_vars
     player_score -= 50
     total_score_var.set("Total Score: " + str(player_score))   
     
@@ -134,7 +242,7 @@ def submit():
                 end = results_list[decade_index].find("\n", start)  # results list is the string for the display
                 print("Setting display")
             
-                display = results_list[decade_index][start:end] + " YES! " + str(val)
+                display = "• " + results_list[decade_index][start:end].upper() + " YES! " + str(val)
                 display = results_list[decade_index][0: start] + display + results_list[decade_index][end:]
                 results_list[decade_index] = display
                 results_displays[decade_index].configure(state="normal") # allow editing of text
@@ -144,36 +252,34 @@ def submit():
                 #if user_decade_counts[decade_index] == decade_counts[decade_index]:
                    ## input("decade: " + str(1940 + decade_index * 10))
                     #show_years(decade_index)
+                setup_menus(c)
                 
-                #break
-            #else:
-                #continue
-            #break          
-    #OPTIONS2 = []
+                break
+            else:
+                continue
+            break          
 
-    #for o in OPTIONS:
-        #if o != c:
-            #OPTIONS2.append(o)
-    #OPTIONS = OPTIONS2
     #for j in range(len(menu_vars)):
         #option_menus[j]['menu'].delete(0, 'end')
+        #if j == 0:
+            #option_menus[j]['menu'].add_command(command = lambda x: check(0))                
+        #if j == 1:
+            #option_menus[j]['menu'].add_command(command = lambda x: check(1))                        
+        #if j == 2:
+            #option_menus[j]['menu'].add_command(command = lambda x: check(2))                
+        #if j == 3:
+            #option_menus[j]['menu'].add_command(command = lambda x: check(3))                
+        #if j == 4:
+            #option_menus[j]['menu'].add_command(command = lambda x: check(4))                
+        #if j == 5:
+            #option_menus[j]['menu'].add_command(command = lambda x: check(5))                        
+        #if j == 6:
+            #option_menus[j]['menu'].add_command(command = lambda x: check(6))                
+        #if j == 7:
+            #option_menus[j]['menu'].add_command(command = lambda x: check(7))           
         #for o in range(len(OPTIONS)):
-            #if o == 0:
-                #option_menus[j]['menu'].add_command(label=OPTIONS[o], command = lambda x: check(0))                
-            #if o == 1:
-                #option_menus[j]['menu'].add_command(label=OPTIONS[o], command = lambda x: check(1))                        
-            #if o == 2:
-                #option_menus[j]['menu'].add_command(label=OPTIONS[o], command = lambda x: check(2))                
-            #if o == 3:
-                #option_menus[j]['menu'].add_command(label=OPTIONS[o], command = lambda x: check(3))                
-            #if o == 4:
-                #option_menus[j]['menu'].add_command(label=OPTIONS[o], command = lambda x: check(4))                
-            #if o == 5:
-                #option_menus[j]['menu'].add_command(label=OPTIONS[o], command = lambda x: check(5))                        
-            #if o == 6:
-                #option_menus[j]['menu'].add_command(label=OPTIONS[o], command = lambda x: check(6))                
-            #if o == 7:
-                #option_menus[j]['menu'].add_command(label=OPTIONS[o], command = lambda x: check(7))                   
+            #option_menus[j]['menu'].add_command(label=OPTIONS[o], command=lambda : check(j))       
+                          
         #menu_vars[j].set(OPTIONS[0])
 
     # display score and correct count
@@ -280,86 +386,9 @@ for i in range(num_decades):
 submit_button = tkinter.Button(text = "CHECK ANS", command = submit, padx=10, pady=3)
 quit_button = tkinter.Button(root, text="Quit", command=quitting_time, padx=10, pady=3)
 
-# create the optionmenu (pulldown menu) with the options above:
-option_menus = []
-menu_vars    = []
 
-OPTIONS = ["SELECT:"] + inventions
 
-# NOTE - COULDN'T SOLVE the problem of check(i) sending menu item, not index
-#  so had to forgo a loop here
-#0
-menu_var = tkinter.StringVar(root)
-menu_var.set(OPTIONS[0]) # default value
-menu_vars.append(menu_var)
-
-option_menu = tkinter.OptionMenu(root, menu_vars[0], 
-                                 *OPTIONS, command = lambda x: check(0))
-option_menus.append(option_menu)
-
-#1
-menu_var = tkinter.StringVar(root)
-menu_var.set(OPTIONS[0]) # default value
-menu_vars.append(menu_var)
-
-option_menu = tkinter.OptionMenu(root, menu_vars[1], 
-                                 *OPTIONS, command = lambda x: check(1))
-option_menus.append(option_menu)
-
-#2
-menu_var = tkinter.StringVar(root)
-menu_var.set(OPTIONS[0]) # default value
-menu_vars.append(menu_var)
-
-option_menu = tkinter.OptionMenu(root, menu_vars[2], 
-                                 *OPTIONS, command = lambda x: check(2))
-option_menus.append(option_menu)
-
-#3
-
-menu_var = tkinter.StringVar(root)
-menu_var.set(OPTIONS[0]) # default value
-menu_vars.append(menu_var)
-
-option_menu = tkinter.OptionMenu(root, menu_vars[3], 
-                                 *OPTIONS, command = lambda x: check(3))
-option_menus.append(option_menu)
-#4
-
-menu_var = tkinter.StringVar(root)
-menu_var.set(OPTIONS[0]) # default value
-menu_vars.append(menu_var)
-
-option_menu = tkinter.OptionMenu(root, menu_vars[4], 
-                                 *OPTIONS, command = lambda x: check(4))
-option_menus.append(option_menu)
-#5
-
-menu_var = tkinter.StringVar(root)
-menu_var.set(OPTIONS[0]) # default value
-menu_vars.append(menu_var)
-
-option_menu = tkinter.OptionMenu(root, menu_vars[5], 
-                                 *OPTIONS, command = lambda x: check(5))
-option_menus.append(option_menu)
-#6
-
-menu_var = tkinter.StringVar(root)
-menu_var.set(OPTIONS[0]) # default value
-menu_vars.append(menu_var)
-
-option_menu = tkinter.OptionMenu(root, menu_vars[6], 
-                                 *OPTIONS, command = lambda x: check(6))
-option_menus.append(option_menu)
-#7
-
-menu_var = tkinter.StringVar(root)
-menu_var.set(OPTIONS[0]) # default value
-menu_vars.append(menu_var)
-
-option_menu = tkinter.OptionMenu(root, menu_vars[7], 
-                                 *OPTIONS, command = lambda x: check(7))
-option_menus.append(option_menu)
+setup_menus(None)
 
 decade_counts      = [0] * num_decades
 user_decade_counts = [0] * num_decades
@@ -370,21 +399,21 @@ for key, value in PROBLEMS.items():
     PROBLEMS[key] = pt
     three_dig = pt // 10 - 194
     decade_counts[three_dig] += 1  # first 3 digits of year - 194(0)
-# place all labels and menus in root window:
-for i in range(num_decades):
-    decade_str = str(start_decade + i * 10) + "'s"
-    if i < 4:
-        tkinter.Label(root, text=decade_str, 
-                      font=("Helvetica", "18", "bold")).grid(row=1, column=i, columnspan=1)
-        option_menus[i].grid(    row=2, column=i, columnspan=1)
-        results_displays[i].grid(row=3, column=i, columnspan=1)
-    else:
-        tkinter.Label(root, text=decade_str, 
-                      font=("Helvetica", "18", "bold")).grid(row=4, column=i % 4, columnspan=1)        
-        option_menus[i].grid(    row=5, column=i % 4, columnspan=1)
-        results_displays[i].grid(row=6, column=i % 4, columnspan=1)
-   
 
+## place all labels and menus in root window:
+#for i in range(num_decades):
+    #decade_str = str(start_decade + i * 10) + "'s"
+    #if i < 4:
+        #tkinter.Label(root, text=decade_str, 
+                      #font=("Helvetica", "18", "bold")).grid(row=1, column=i, columnspan=1)
+        #option_menus[i].grid(    row=2, column=i, columnspan=1)
+        #results_displays[i].grid(row=3, column=i, columnspan=1)
+    #else:
+        #tkinter.Label(root, text=decade_str, 
+                      #font=("Helvetica", "18", "bold")).grid(row=4, column=i % 4, columnspan=1)        
+        #option_menus[i].grid(    row=5, column=i % 4, columnspan=1)
+        #results_displays[i].grid(row=6, column=i % 4, columnspan=1)
+   
 
 
 submit_button.grid(row=0, column=2, columnspan=1)
