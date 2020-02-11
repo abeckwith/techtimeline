@@ -19,8 +19,8 @@ root.title("TECH TIMELINE GAME")
 PROBLEMS = { 
     "Amazon"        :-994747177,
     "Angry Birds"   :-994636612,
-    "Asteroids"     : -994857742,
-    "browser"       : -994776661,
+    "Asteroids"     :-994857742,
+    "browser"       :-994776661,
     "calculator"    :-994946194,
     "comp w/sound"  :-994813516,
     "CPUs"          :-994916710,
@@ -28,7 +28,6 @@ PROBLEMS = {
     "dumb cellphone":-994901968,
     "email"         :-994916710,
     "Facebook"      :-994673467,
-    "video game":-994983049,
     "Fortnite"      :-994577644,
     "Google"        :-994717693,
     "graphing calc.":-994813516,
@@ -43,6 +42,7 @@ PROBLEMS = {
     "Minecraft"     :-994636612,
     "monitor"       :-994901968,
     "mouse"         :-994924081,
+    "music player"  :-994725064,    
     "network"       :-994931452,
     "PacMan"        :-994850371,
     "Play Station"  :-994747177,
@@ -56,7 +56,7 @@ PROBLEMS = {
     "transistor"    :-995042017,
     "Tetris"        :-994820887,
     "USB"           :-994732435,
-    "music player"  :-994725064,
+    "video game":-994983049,
     "word proc."    :-994857742,
     "World of Warcraft":-994673467
     }
@@ -109,9 +109,13 @@ def show_years(decade_ind):
 def submit():
     '''called when the submit button is clicked - check all answers and update things'''
     global player_score, t, correct_decade, user_decade_counts, decade_counts
+    global OPTIONS
     player_score -= 50
-    total_score_var.set("Total Score: " + str(player_score))    
-    # go through each decade
+    total_score_var.set("Total Score: " + str(player_score))   
+    
+    ##########################################
+    # GO THROUGH ALL DECADE TO FIND MATCHES  #
+    ##########################################
     for i in range(num_decades):
         # go through each choice in the list and see if year matches:
         for c in choices[i]:
@@ -138,6 +142,18 @@ def submit():
                 #if user_decade_counts[decade_index] == decade_counts[decade_index]:
                    ## input("decade: " + str(1940 + decade_index * 10))
                     #show_years(decade_index)
+                OPTIONS2 = []
+                
+                for o in OPTIONS:
+                    if o != c:
+                        OPTIONS2.append(o)
+                OPTIONS = OPTIONS2
+                for j in range(len(menu_vars)):
+                    option_menus[j]['menu'].delete(0, 'end')
+                    for o in range(len(OPTIONS)):
+                        option_menus[j]['menu'].add_command(label=OPTIONS[o])                
+                    
+                        menu_vars[j].set(OPTIONS[0])
 
     # display score and correct count
     old_score = int(score_var.get()[8:]) + 1  # removes "ROUNDS: "
@@ -326,6 +342,7 @@ option_menus.append(option_menu)
 
 decade_counts      = [0] * num_decades
 user_decade_counts = [0] * num_decades
+
 
 for key, value in PROBLEMS.items():
     pt = round(((value - 2623400) / 567 + 1784953) / 13)
