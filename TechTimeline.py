@@ -116,11 +116,13 @@ def submit():
     ##########################################
     # GO THROUGH ALL DECADE TO FIND MATCHES  #
     ##########################################
+    print(num_decades, len(choices))
     for i in range(num_decades):
         # go through each choice in the list and see if year matches:
         for c in choices[i]:
             val  = str(PROBLEMS[c])                # the year
             srch = str(start_decade + 10 * i)[:3]  # first 3 digits of year
+            print(val, srch)
             if val.find(srch) != -1 and not got_right[c]:               # found, so correct decade
                 correct_decade += 1
                 player_score += 100
@@ -130,7 +132,7 @@ def submit():
                 
                 start = results_list[decade_index].find(c)
                 end = results_list[decade_index].find("\n", start)  # results list is the string for the display
-                
+                print("Setting display")
             
                 display = results_list[decade_index][start:end] + " YES! " + str(val)
                 display = results_list[decade_index][0: start] + display + results_list[decade_index][end:]
@@ -142,18 +144,37 @@ def submit():
                 #if user_decade_counts[decade_index] == decade_counts[decade_index]:
                    ## input("decade: " + str(1940 + decade_index * 10))
                     #show_years(decade_index)
-                OPTIONS2 = []
                 
-                for o in OPTIONS:
-                    if o != c:
-                        OPTIONS2.append(o)
-                OPTIONS = OPTIONS2
-                for j in range(len(menu_vars)):
-                    option_menus[j]['menu'].delete(0, 'end')
-                    for o in range(len(OPTIONS)):
-                        option_menus[j]['menu'].add_command(label=OPTIONS[o])                
-                    
-                        menu_vars[j].set(OPTIONS[0])
+                #break
+            #else:
+                #continue
+            #break          
+    #OPTIONS2 = []
+
+    #for o in OPTIONS:
+        #if o != c:
+            #OPTIONS2.append(o)
+    #OPTIONS = OPTIONS2
+    #for j in range(len(menu_vars)):
+        #option_menus[j]['menu'].delete(0, 'end')
+        #for o in range(len(OPTIONS)):
+            #if o == 0:
+                #option_menus[j]['menu'].add_command(label=OPTIONS[o], command = lambda x: check(0))                
+            #if o == 1:
+                #option_menus[j]['menu'].add_command(label=OPTIONS[o], command = lambda x: check(1))                        
+            #if o == 2:
+                #option_menus[j]['menu'].add_command(label=OPTIONS[o], command = lambda x: check(2))                
+            #if o == 3:
+                #option_menus[j]['menu'].add_command(label=OPTIONS[o], command = lambda x: check(3))                
+            #if o == 4:
+                #option_menus[j]['menu'].add_command(label=OPTIONS[o], command = lambda x: check(4))                
+            #if o == 5:
+                #option_menus[j]['menu'].add_command(label=OPTIONS[o], command = lambda x: check(5))                        
+            #if o == 6:
+                #option_menus[j]['menu'].add_command(label=OPTIONS[o], command = lambda x: check(6))                
+            #if o == 7:
+                #option_menus[j]['menu'].add_command(label=OPTIONS[o], command = lambda x: check(7))                   
+        #menu_vars[j].set(OPTIONS[0])
 
     # display score and correct count
     old_score = int(score_var.get()[8:]) + 1  # removes "ROUNDS: "
