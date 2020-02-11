@@ -14,7 +14,7 @@ subprocess.call(['open', "problems.pdf"])
 # root tkinter window for all graphics
 root = tkinter.Tk() 
 root.title("TECH TIMELINE GAME")  
-
+root.configure(background='#B0E0E6')
 # encrypted:
 PROBLEMS = { 
     "Amazon"        :-994747177,
@@ -128,13 +128,14 @@ def setup_menus(c):
         OPTIONS = OPTIONS2    
     # NOTE - COULDN'T SOLVE the problem of check(i) sending menu item, not index
     #  so had to forgo a loop here
-    print("NEW MENUS")
+    #print("NEW MENUS")
     menu_var = tkinter.StringVar(root)
     menu_var.set(OPTIONS[0]) # default value
     menu_vars.append(menu_var)
     
     option_menu = tkinter.OptionMenu(root, menu_vars[0], 
-                                     *OPTIONS, command = lambda x: check(0))
+                                     *OPTIONS,  command = lambda x: check(0))
+    option_menu.configure(bg="#B0E0E6")
     option_menus.append(option_menu)
     
     #1
@@ -145,6 +146,8 @@ def setup_menus(c):
     option_menu = tkinter.OptionMenu(root, menu_vars[1], 
                                      *OPTIONS, command = lambda x: check(1))
     option_menus.append(option_menu)
+    option_menu.configure(bg="#B0E0E6")
+    
     
     #2
     menu_var = tkinter.StringVar(root)
@@ -154,6 +157,7 @@ def setup_menus(c):
     option_menu = tkinter.OptionMenu(root, menu_vars[2], 
                                      *OPTIONS, command = lambda x: check(2))
     option_menus.append(option_menu)
+    option_menu.configure(bg="#B0E0E6")
     
     #3
     
@@ -164,6 +168,8 @@ def setup_menus(c):
     option_menu = tkinter.OptionMenu(root, menu_vars[3], 
                                      *OPTIONS, command = lambda x: check(3))
     option_menus.append(option_menu)
+    option_menu.configure(bg="#B0E0E6")
+    
     #4
     
     menu_var = tkinter.StringVar(root)
@@ -173,6 +179,8 @@ def setup_menus(c):
     option_menu = tkinter.OptionMenu(root, menu_vars[4], 
                                      *OPTIONS, command = lambda x: check(4))
     option_menus.append(option_menu)
+    option_menu.configure(bg="#B0E0E6")
+    
     #5
     
     menu_var = tkinter.StringVar(root)
@@ -182,6 +190,8 @@ def setup_menus(c):
     option_menu = tkinter.OptionMenu(root, menu_vars[5], 
                                      *OPTIONS, command = lambda x: check(5))
     option_menus.append(option_menu)
+    option_menu.configure(bg="#B0E0E6")
+    
     #6
     
     menu_var = tkinter.StringVar(root)
@@ -191,6 +201,8 @@ def setup_menus(c):
     option_menu = tkinter.OptionMenu(root, menu_vars[6], 
                                      *OPTIONS, command = lambda x: check(6))
     option_menus.append(option_menu)
+    option_menu.configure(bg="#B0E0E6")
+    
     #7
     
     menu_var = tkinter.StringVar(root)
@@ -200,17 +212,19 @@ def setup_menus(c):
     option_menu = tkinter.OptionMenu(root, menu_vars[7], 
                                      *OPTIONS, command = lambda x: check(7))
     option_menus.append(option_menu)
+    option_menu.configure(bg="#B0E0E6")
+    
 
     # place all labels and menus in root window:
     for i in range(num_decades):
         decade_str = str(start_decade + i * 10) + "'s"
         if i < 4:
-            tkinter.Label(root, text=decade_str, 
+            tkinter.Label(root, text=decade_str,  bg="#B0E0E6",
                           font=("Helvetica", "18", "bold")).grid(row=1, column=i, columnspan=1)
             option_menus[i].grid(    row=2, column=i, columnspan=1)
             results_displays[i].grid(row=3, column=i, columnspan=1)
         else:
-            tkinter.Label(root, text=decade_str, 
+            tkinter.Label(root, text=decade_str,  bg="#B0E0E6",
                           font=("Helvetica", "18", "bold")).grid(row=4, column=i % 4, columnspan=1)        
             option_menus[i].grid(    row=5, column=i % 4, columnspan=1)
             results_displays[i].grid(row=6, column=i % 4, columnspan=1)
@@ -225,13 +239,13 @@ def submit():
     ##########################################
     # GO THROUGH ALL DECADE TO FIND MATCHES  #
     ##########################################
-    print(num_decades, len(choices))
+    #print(num_decades, len(choices))
     for i in range(num_decades):
         # go through each choice in the list and see if year matches:
         for c in choices[i]:
             val  = str(PROBLEMS[c])                # the year
             srch = str(start_decade + 10 * i)[:3]  # first 3 digits of year
-            print(val, srch)
+            #print(val, srch)
             if val.find(srch) != -1 and not got_right[c]:               # found, so correct decade
                 correct_decade += 1
                 player_score += 100
@@ -241,7 +255,7 @@ def submit():
                 
                 start = results_list[decade_index].find(c)
                 end = results_list[decade_index].find("\n", start)  # results list is the string for the display
-                print("Setting display")
+                #print("Setting display")
             
                 display = "• " + results_list[decade_index][start:end].upper() + " YES! " + str(val)
                 display = results_list[decade_index][0: start] + display + results_list[decade_index][end:]
@@ -370,10 +384,10 @@ results_list     = []
 for i in range(num_decades):
     
     results_display = tkinter.Text(root,  
-                        height=12,
-                        relief = "ridge",
-                        bd = 6, 
-                        width=26,
+                        height=14,
+                        #relief = "ridge",
+                        bd = 0, 
+                        width=26, bg="#B0E0E6",
                         font=my_font,
                         foreground='white',
                         background='black')
@@ -385,7 +399,8 @@ for i in range(num_decades):
     choices.append([]) # 2D list of what user has chosen for each decade
 
 #  BUTTONS
-submit_button = tkinter.Button(text = "CHECK ANS", command = submit, padx=10, pady=3)
+submit_button = tkinter.Button(text = "CHECK ANS", command = submit, 
+                               padx=10, pady=3, fg="green")
 quit_button = tkinter.Button(root, text="Quit", command=quitting_time, padx=10, pady=3)
 
 
@@ -418,20 +433,20 @@ for key, value in PROBLEMS.items():
    
 
 
-submit_button.grid(row=0, column=2, columnspan=1)
-quit_button.grid(  row=0, column=3, columnspan=1)
-submit_button.config(font=('Verdana', '20'))
+submit_button.grid(row=7, column=0, columnspan=2)
+quit_button.grid(  row=7, column=3, columnspan=1, pady=20)
+submit_button.config(font=('Verdana', '30'), borderwidth=5, relief=tkinter.RAISED)
 quit_button.config(font=('Verdana', '20'))
 
 score_var = tkinter.StringVar(root)
 score_var.set("ROUNDS: 0")
-score_lbl = tkinter.Label(root, textvariable=score_var, fg="blue")
+score_lbl = tkinter.Label(root, textvariable=score_var, fg="blue", bg="#B0E0E6")
 score_lbl.config(font=('Verdana', '20'))
 score_lbl.grid(row=0, column=1, columnspan=1)
 
 time_var = tkinter.StringVar(root)
 time_var.set("TIME: 0:00")
-time_lbl = tkinter.Label(root, textvariable=time_var, fg="red")
+time_lbl = tkinter.Label(root, textvariable=time_var, fg="red", bg="#B0E0E6")
 time_lbl.config(font=('Verdana', '20'))
 time_lbl.grid(row=0, column=0, columnspan=1)
 
@@ -443,11 +458,12 @@ decade_lbl = tkinter.Label(root,
                            bg="black",
                            font=decade_font,
                            pady=6)
-decade_lbl.grid(row=7, column=0, columnspan=1)
+decade_lbl.grid(row=0, column=2, columnspan=1)
 
 total_score_var = tkinter.StringVar(root)
 total_score_var .set("Total Score: 0")
-total_score_lbl = tkinter.Label(root, textvariable=total_score_var, fg="blue")
+total_score_lbl = tkinter.Label(root, textvariable=total_score_var, 
+                                fg="blue", bg="#B0E0E6")
 total_score_lbl.config(font=('Verdana', '20'))
-total_score_lbl.grid(row=7, column=1, columnspan=1)
+total_score_lbl.grid(row=0, column=3, columnspan=1)
 root.mainloop()
