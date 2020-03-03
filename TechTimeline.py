@@ -8,8 +8,8 @@ import tkinter
 from tkinter.font import Font
 
 # open up pdf with list of inventions:
-import subprocess
-subprocess.call(['open', "problems.pdf"])
+#import subprocess
+#subprocess.call(['open', "problems.pdf"])
 
 # root tkinter window for all graphics
 root = tkinter.Tk() 
@@ -72,7 +72,7 @@ years_ct      = list(PROBLEMS.values())
 vals = [False for i in range(len(inventions))]
 got_right = dict(zip(inventions, vals))
 
-
+wrong_points = 30
 player_score = 1000
 num_decades  = 8
 start_decade = 1940
@@ -243,9 +243,9 @@ def check_answers():
     '''called when the check_answers button is clicked - check all answers and update things'''
 
     global player_score, t, correct_decade, user_decade_counts, decade_counts
-    global option_menus, OPTIONS, menu_vars, inventions
+    global option_menus, OPTIONS, menu_vars, inventions, wrong_points, lose_var
     
-    player_score -= 50   # lose 50 for every time check answers
+    #player_score -= 50   # lose 50 for every time check answers
     total_score_var.set("Total Score: " + str(player_score))   
     
     ##########################################
@@ -256,7 +256,7 @@ def check_answers():
         for c in choices[i]:
             val  = str(PROBLEMS[c])                # the year
             srch = str(start_decade + 10 * i)[:3]  # first 3 digits of year
-            if val.find(srch) != -1 and not got_right[c]:               # found, so correct decade
+            if val.find(srch) != -1 and not got_right[c]:   # found, so correct decade
                 correct_decade += 1
                 player_score += 100
                 got_right[c] = True
@@ -279,9 +279,28 @@ def check_answers():
                 inventions.remove(c)  # also remove from list of inventions
                 
                 break  # no need for the rest of the loop
+            elif val.find(srch) == -1:  # didnt' find, so show it is wrong
+                # change display to show WRONG:
+                decade_index = int(srch) - 194
+
+                start = results_list[decade_index].find(c)
+                end = results_list[decade_index].find("\n", start)  # results list is the string for the display
+
+                # only add WRONG if not already added:
+                if results_list[decade_index][start:end].upper()[-5:] != "WRONG":
+                    display =  results_list[decade_index][start:end] + " : WRONG"
+                    display = results_list[decade_index][0: start] + display + results_list[decade_index][end:]
+                    results_list[decade_index] = display
+                    results_displays[decade_index].configure(state="normal") # allow editing of text
+                    results_displays[decade_index].delete(1.0, tkinter.END)
+                    results_displays[decade_index].insert(tkinter.END, display) # show results in text area
+                    results_displays[decade_index].configure(state="disabled") # prevent editing of text#
+                    player_score -= wrong_points
+                    wrong_points += 1
+                    lose_var.set("Wrong Answer Penalty:" + str(wrong_points))
             else:
                 continue
-            break          
+                  
 
 
     # display score and correct count
@@ -377,7 +396,7 @@ for i in range(num_decades):
                         height=14,
                         #relief = "ridge",
                         bd = 0, 
-                        width=26, bg="#B0E0E6",
+                        width=30, bg="#B0E0E6",
                         font=my_font,
                         foreground='white',
                         background='black')
@@ -413,6 +432,12 @@ quit_button.config(font=('Verdana', '20'))
 #############################################
 # make and place all labels for GUI info:
 #############################################
+
+lose_var = tkinter.StringVar(root)
+lose_var.set("Wrong Answer Penalty:30")
+lose_lbl = tkinter.Label(root, textvariable=lose_var, fg="blue", bg="#B0E0E6")
+lose_lbl.config(font=('Verdana', '18'))
+lose_lbl.grid(row=7, column=2, columnspan=1)
 
 score_var = tkinter.StringVar(root)
 score_var.set("ROUNDS: 0")
